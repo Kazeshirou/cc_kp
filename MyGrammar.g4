@@ -122,6 +122,10 @@ atom_empty_cell: LEFT_BRACE RIGHT_BRACE;
 
 atom_end: END;
 
+atom_semicolon: SEMI_COLON;
+
+atom_comma: COMMA;
+
 atom_float: FLOAT;
 
 atom_imaginary: IMAGINARY;
@@ -230,12 +234,7 @@ attrib_method_access: 'Access';
 
 atom_access: 'public' | 'protected' | 'private' | atom_meta;
 
-st_assign:
-	st_assign_left ASSIGN (
-		atom_empty_cell
-		| xpr_tree
-		| xpr_handle
-	);
+st_assign: st_assign_left ASSIGN ( atom_empty_cell | xpr_tree);
 
 st_assign_left: (
 		atom_var
@@ -257,11 +256,7 @@ st_assign_left: (
 			| xpr_cell_index
 			| xpr_field
 		)
-	)* RIGHT_SQUARE_BRACKET ASSIGN (
-		atom_empty_cell
-		| xpr_tree
-		| xpr_handle
-	);
+	)* RIGHT_SQUARE_BRACKET ASSIGN (atom_empty_cell | xpr_tree);
 
 st_command: atom_var command_argument+;
 
@@ -314,14 +309,9 @@ statement:
 		| BREAK
 		| CONTINUE
 		| RETURN
-	) (COMMA | SEMI_COLON)?;
+	) (atom_comma | atom_semicolon)?;
 
 // ## Expression Trees
-// 
-// Expression trees model a generic expression in MATLAB. The difference between `xpr_tree` and
-// `xpr_tree_` (with underscore) is that `xpr_tree_` includes the `end` keyword can can be used for
-// array or cell indexing. To make this work we also need `xpr_array_` and `xpr_cell_` which are
-// analogous.
 xpr_tree:
 	atom_boolean
 	| atom_empty_array
@@ -359,44 +349,6 @@ xpr_tree:
 	| xpr_tree LOGICAL_AND xpr_tree
 	| xpr_tree LOGICAL_OR xpr_tree;
 
-xpr_tree_:
-	atom_boolean
-	| atom_empty_array
-	| atom_end
-	| atom_float
-	| atom_imaginary
-	| atom_integer
-	| atom_string
-	| atom_var
-	| xpr_array_
-	| xpr_array_index
-	| xpr_cell_
-	| xpr_cell_index
-	| xpr_field
-	| xpr_function
-	| LEFT_PARENTHESIS xpr_tree_ RIGHT_PARENTHESIS
-	| xpr_tree_ (ELMENT_WISE_TRANSPOSE | TRANSPOSE)
-	| xpr_tree_ (ELMENT_WISE_POWER | POWER) xpr_tree_
-	| (PLUS | MINUS | NOT) xpr_tree_
-	| xpr_tree_ (
-		ELMENT_WISE_TIMES
-		| ELMENT_WISE_RIGHT_DIVIDE
-		| ELMENT_WISE_LEFT_DIVIDE
-	) xpr_tree_
-	| xpr_tree_ (TIMES | RIGHT_DIVIDE | LEFT_DIVIDE) xpr_tree_
-	| xpr_tree_ (PLUS | MINUS) xpr_tree_
-	| xpr_tree_ COLON xpr_tree_
-	| xpr_tree_ LESS_THAN xpr_tree_
-	| xpr_tree_ LESS_THAN_OR_EQUAL xpr_tree_
-	| xpr_tree_ GREATER_THAN xpr_tree_
-	| xpr_tree_ GREATER_THAN_OR_EQUAL xpr_tree_
-	| xpr_tree_ EQUALS xpr_tree_
-	| xpr_tree_ NOT_EQUAL xpr_tree_
-	| xpr_tree_ BINARY_AND xpr_tree_
-	| xpr_tree_ BINARY_OR xpr_tree_
-	| xpr_tree_ LOGICAL_AND xpr_tree_
-	| xpr_tree_ LOGICAL_OR xpr_tree_;
-
 // Apparently MATLAB doesn't care whether you add commas to an array definition or not. E.g. [0 0 8]
 // [[0 0 8] [9 0 8]] [[0 0 8],[9 0 8]] [[0 0, 8],[9 0 8]] and [0 8 9, 10, 40 50 60] are all valid
 // matlab expressions. The caveat is that you can't have two simultaneous commas. That throws an
@@ -407,40 +359,19 @@ xpr_array:
 		SEMI_COLON xpr_tree (COMMA? xpr_tree)*
 	)* RIGHT_SQUARE_BRACKET;
 
-xpr_array_:
-	LEFT_SQUARE_BRACKET xpr_tree_ (COMMA? xpr_tree_)* RIGHT_SQUARE_BRACKET
-	| LEFT_SQUARE_BRACKET xpr_tree_ (COMMA? xpr_tree_)* (
-		SEMI_COLON xpr_tree_ (COMMA? xpr_tree_)*
-	)* RIGHT_SQUARE_BRACKET;
-
 xpr_cell:
-	LEFT_BRACE (xpr_tree | xpr_handle) (
-		COMMA? (xpr_tree | xpr_handle)
-	)* RIGHT_BRACE
-	| LEFT_BRACE (xpr_tree | xpr_handle) (
-		COMMA? (xpr_tree | xpr_handle)
-	)* (
-		SEMI_COLON (xpr_tree | xpr_handle) (
-			COMMA? (xpr_tree | xpr_handle)
-		)*
-	)* RIGHT_BRACE;
-
-xpr_cell_:
-	LEFT_BRACE xpr_tree_ (COMMA? xpr_tree_)* RIGHT_BRACE
-	| LEFT_BRACE xpr_tree_ (COMMA? xpr_tree_)* (
-		SEMI_COLON xpr_tree_ (COMMA? xpr_tree_)*
+	LEFT_BRACE (xpr_tree) (COMMA? (xpr_tree))* RIGHT_BRACE
+	| LEFT_BRACE (xpr_tree) (COMMA? (xpr_tree))* (
+		SEMI_COLON (xpr_tree) ( COMMA? (xpr_tree))*
 	)* RIGHT_BRACE;
 
 // SYNTAX identifier (index_express [, indexexpression] ...)
-xpr_array_index: (xpr_cell_index | atom_var) LEFT_PARENTHESIS (
-		atom_index_all
-		| xpr_tree_
-	) (COMMA (atom_index_all | xpr_tree_))* RIGHT_PARENTHESIS;
+xpr_array_index: (xpr_cell_index | atom_var) LEFT_PARENTHESIS atom_index_all (
+		COMMA atom_index_all
+	)* RIGHT_PARENTHESIS;
 
 xpr_cell_index:
-	atom_var LEFT_BRACE (atom_index_all | xpr_tree_) (
-		COMMA (atom_index_all | xpr_tree_)
-	)* RIGHT_BRACE;
+	atom_var LEFT_BRACE atom_index_all (COMMA atom_index_all)* RIGHT_BRACE;
 
 // a.b == identifier DOT identifier a.b.c == (a.b).c == field_access DOT identifier a.b.c.f() ==
 // ((a.b).c).f()
@@ -467,8 +398,6 @@ xpr_function:
 		xpr_function_paramer (COMMA xpr_function_paramer)*
 	)? RIGHT_PARENTHESIS;
 
-xpr_function_paramer: xpr_tree | xpr_handle | atom_empty_cell;
-
-xpr_handle: AT atom_var | AT function_params statement;
+xpr_function_paramer: xpr_tree | atom_empty_cell;
 
 command_argument: ID;

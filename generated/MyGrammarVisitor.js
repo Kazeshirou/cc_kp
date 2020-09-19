@@ -36,6 +36,18 @@ MyGrammarVisitor.prototype.visitAtom_end = function(ctx) {
 };
 
 
+// Visit a parse tree produced by MyGrammarParser#atom_semicolon.
+MyGrammarVisitor.prototype.visitAtom_semicolon = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by MyGrammarParser#atom_comma.
+MyGrammarVisitor.prototype.visitAtom_comma = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
 // Visit a parse tree produced by MyGrammarParser#atom_float.
 MyGrammarVisitor.prototype.visitAtom_float = function(ctx) {
   return this.visitChildren(ctx);
@@ -306,32 +318,14 @@ MyGrammarVisitor.prototype.visitXpr_tree = function(ctx) {
 };
 
 
-// Visit a parse tree produced by MyGrammarParser#xpr_tree_.
-MyGrammarVisitor.prototype.visitXpr_tree_ = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
 // Visit a parse tree produced by MyGrammarParser#xpr_array.
 MyGrammarVisitor.prototype.visitXpr_array = function(ctx) {
   return this.visitChildren(ctx);
 };
 
 
-// Visit a parse tree produced by MyGrammarParser#xpr_array_.
-MyGrammarVisitor.prototype.visitXpr_array_ = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
 // Visit a parse tree produced by MyGrammarParser#xpr_cell.
 MyGrammarVisitor.prototype.visitXpr_cell = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
-// Visit a parse tree produced by MyGrammarParser#xpr_cell_.
-MyGrammarVisitor.prototype.visitXpr_cell_ = function(ctx) {
   return this.visitChildren(ctx);
 };
 
@@ -362,12 +356,6 @@ MyGrammarVisitor.prototype.visitXpr_function = function(ctx) {
 
 // Visit a parse tree produced by MyGrammarParser#xpr_function_paramer.
 MyGrammarVisitor.prototype.visitXpr_function_paramer = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
-// Visit a parse tree produced by MyGrammarParser#xpr_handle.
-MyGrammarVisitor.prototype.visitXpr_handle = function(ctx) {
   return this.visitChildren(ctx);
 };
 

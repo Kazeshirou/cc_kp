@@ -6,6 +6,58 @@ class ASTNode {
     }
 }
 
+class Atom extends ASTNode {
+    constructor() {
+        super();
+        this.value = null;
+    }
+}
+
+class BooleanAtom extends Atom { }
+class EmptyArrayAtom extends Atom { }
+class EmptyCellAtom extends Atom { }
+class IndexAllAtom extends Atom { }
+class IntegerAtom extends Atom { }
+class ImaginaryAtom extends Atom { }
+class FloatAtom extends Atom { }
+class StringAtom extends Atom { }
+class VarAtom extends Atom { }
+
+
+
+class Expression extends ASTNode { }
+class SubExpression extends Expression {
+    constructor() {
+        super();
+        this.subexpression = null;
+    }
+}
+class TransposeExpression extends Expression {
+    constructor() {
+        super();
+        this.operator = null;
+        this.operand = null;
+    }
+}
+
+class UnaryExpression extends Expression {
+    constructor() {
+        super();
+        this.operator = null;
+        this.operand = null;
+    }
+}
+
+class BinaryExpression extends Expression {
+    constructor() {
+        super();
+        this.operator = null;
+        this.operand1 = null;
+        this.operand2 = null;
+    }
+}
+
+
 class Terminal extends ASTNode {
     constructor(value) {
         super();
@@ -93,7 +145,7 @@ class Statement extends ProgramItem { }
 class AssignStatement extends Statement {
     constructor() {
         super();
-        this.left = [];
+        this.left = null;
         this.right = null;
     }
 }
@@ -190,12 +242,6 @@ class FieldStatement extends Statement {
     }
 }
 
-class TreeStatement extends Statement {
-    constructor() {
-        super();
-    }
-}
-
 
 class Visitor extends MyGrammarVisitor {
     start(ctx) {
@@ -234,7 +280,7 @@ class Visitor extends MyGrammarVisitor {
 
     visitDef_function(ctx) {
         let func = new FunctionDefinition();
-        func.name = this.visitTerminal(ctx.atom_var());
+        func.name = this.visitAtom_var(ctx.atom_var());
         let retvals = ctx.function_returns();
         if (retvals) {
             func.returnValues = this.visitFunction_returns(retvals);
@@ -271,7 +317,7 @@ class Visitor extends MyGrammarVisitor {
             }
             classDef.attributes.push(this.visitClass_attribute(attr));
         }
-        classDef.name = this.visitTerminal(ctx.atom_var(0));
+        classDef.name = this.visitAtom_var(ctx.atom_var(0));
         let superClasses = ctx.super_classes();
         if (superClasses) {
             classDef.superClasses = this.visitSuper_classes(superClasses);
@@ -316,7 +362,7 @@ class Visitor extends MyGrammarVisitor {
     visitClass_property(ctx) {
         let atom_var = ctx.atom_var();
         if (atom_var) {
-            return this.visitTerminal(atom_var);
+            return this.visitAtom_var(atom_var);
         }
         let st_assign = ctx.st_assign();
         if (st_assign) {
@@ -329,7 +375,7 @@ class Visitor extends MyGrammarVisitor {
         attr.name = this.visitTerminal(ctx.attrib_class_boolean());
         let value = ctx.atom_boolean();
         if (value) {
-            attr.value = this.visitTerminal(value);
+            attr.value = this.visitAtom_boolean(value);
         }
         return attr;
     }
@@ -346,7 +392,7 @@ class Visitor extends MyGrammarVisitor {
                 if (!meta) {
                     break;
                 }
-                attr.value.push(this.visitTerminal(meta));
+                attr.value.push(this.visitAtom_var(meta));
             }
         }
         return attr;
@@ -357,7 +403,7 @@ class Visitor extends MyGrammarVisitor {
         attr.name = this.visitTerminal(ctx.attrib_property_boolean());
         let value = ctx.atom_boolean();
         if (value) {
-            attr.value = this.visitTerminal(value);
+            attr.value = this.visitAtom_boolean(value);
         }
         return attr;
     }
@@ -378,7 +424,7 @@ class Visitor extends MyGrammarVisitor {
                 if (!meta) {
                     break;
                 }
-                attr.value.push(this.visitTerminal(meta));
+                attr.value.push(this.visitAtom_var(meta));
             }
         } else {
             attr.value = this.visitTerminal(access);
@@ -391,7 +437,7 @@ class Visitor extends MyGrammarVisitor {
         attr.name = this.visitTerminal(ctx.attrib_method_boolean());
         let value = ctx.atom_boolean();
         if (value) {
-            attr.value = this.visitTerminal(value);
+            attr.value = this.visitAtom_boolean(value);
         }
         return attr;
     }
@@ -412,7 +458,7 @@ class Visitor extends MyGrammarVisitor {
                 if (!meta) {
                     break;
                 }
-                attr.value.push(this.visitTerminal(meta));
+                attr.value.push(this.visitAtom_var(meta));
             }
         } else {
             attr.value = this.visitTerminal(access);
@@ -429,7 +475,7 @@ class Visitor extends MyGrammarVisitor {
             if (!attr) {
                 break;
             }
-            superClasses.push(this.visitTerminal(attr));
+            superClasses.push(this.visitAtom_var(attr));
         }
         return superClasses;
     }
@@ -442,7 +488,7 @@ class Visitor extends MyGrammarVisitor {
             if (!val) {
                 break;
             }
-            retvals.push(this.visitTerminal(val));
+            retvals.push(this.visitAtom_var(val));
         }
         return retvals;
     }
@@ -455,9 +501,27 @@ class Visitor extends MyGrammarVisitor {
             if (!val) {
                 break;
             }
-            params.push(this.visitTerminal(val));
+            params.push(this.visitAtom_var(val));
         }
         return params;
+    }
+
+    visitStatement(ctx) {
+        return this.visit(ctx.getChild(0));
+    }
+
+    visitSt_command(ctx) {
+        let cmd = new CommandStatement();
+
+        cmd.command = this.visitAtom_var(ctx.atom_var());
+        let i = 0;
+        while (true) {
+            let arg = ctx.command_argument(i++);
+            if (!arg) {
+                break;
+            }
+            cmd.arguments.push(arg.getText());
+        }
     }
 
     visitSt_assign(ctx) {
@@ -523,7 +587,7 @@ class Visitor extends MyGrammarVisitor {
 
     visitSt_for(ctx) {
         let stat = new ForStatement();
-        stat.index = this.visitTerminal(ctx.atom_var());
+        stat.index = this.visitAtom_var(ctx.atom_var());
         stat.range = this.visitStatement(ctx.xpr_tree());
         let i = 0;
         while (true) {
@@ -619,7 +683,7 @@ class Visitor extends MyGrammarVisitor {
 
     visitSt_catch(ctx) {
         let stat = new CatchStatement();
-        stat.targetError = this.visitTerminal(ctx.atom_var());
+        stat.targetError = this.visitAtom_var(ctx.atom_var());
         let i = 0;
         while (true) {
             let bodyStat = ctx.statement(i++);
@@ -633,7 +697,7 @@ class Visitor extends MyGrammarVisitor {
 
     visitXpr_function(ctx) {
         let stat = new FunctionCallStatement();
-        stat.name = this.visitTerminal(ctx.atom_var());
+        stat.name = this.visitAtom_var(ctx.atom_var());
         let i = 0;
         while (true) {
             let param = ctx.xpr_function_paramer(i++);
@@ -653,8 +717,96 @@ class Visitor extends MyGrammarVisitor {
     }
 
     visitXpr_tree(ctx) {
-        let stat = new TreeStatement();
-        return stat;
+        if (ctx.getChildCount() === 1) {
+            return this.visit(ctx.getChild(0));
+        }
+        if (ctx.getChildCount() === 2) {
+            if (ctx.TRANSPOSE() || ctx.ELMENT_WISE_TRANSPOSE()) {
+                let transpose = new TransposeExpression();
+                transpose.operator = ctx.getChild(1).getText();
+                transpose.operand = this.visit(ctx.getChild(0));
+                return transpose;
+            } else {
+                let unary = new UnaryExpression();
+                unary.operator = ctx.getChild(0).getText();
+                unary.operand = this.visit(ctx.getChild(0));
+                return unary;
+            }
+        }
+        if (ctx.LEFT_PARENTHESIS()) {
+            let sub = new SubExpression();
+            sub.subexpression = this.visit(ctx.xpr_tree());
+            return sub;
+        }
+        let binary = new BinaryExpression();
+        binary.operator = ctx.getChild(1).getText();
+        binary.operand1 = this.visit(ctx.xpr_tree(0));
+        binary.operand2 = this.visit(ctx.xpr_tree(1));
+        return binary;
+
+    }
+
+    visitAtom_boolean(ctx) {
+        let atom = new BooleanAtom();
+        atom.value = ctx.getText();
+        return atom;
+    }
+
+    visitAtom_empty_array(ctx) {
+        let atom = new EmptyArrayAtom();
+        atom.value = ctx.getText();
+        return atom;
+    }
+
+    visitAtom_empty_cell(ctx) {
+        let atom = new EmptyCellAtom();
+        atom.value = ctx.getText();
+        return atom;
+    }
+
+    visitAtom_end() {
+    }
+
+    visitAtom_float(ctx) {
+        let atom = new FloatAtom();
+        atom.value = ctx.getText();
+        return atom;
+    }
+
+    visitAtom_imaginary(ctx) {
+        let atom = new ImaginaryAtom();
+        atom.value = ctx.getText();
+        return atom;
+    }
+
+    visitAtom_index_all(ctx) {
+        let atom = new IndexAllAtom();
+        atom.value = ctx.getText();
+        return atom;
+    }
+
+    visitAtom_integer(ctx) {
+        let atom = new IntegerAtom();
+        atom.value = ctx.getText();
+        return atom;
+    }
+
+    visitAtom_string(ctx) {
+        let atom = new StringAtom();
+        atom.value = ctx.getText();
+        return atom;
+    }
+
+    visitAtom_var(ctx) {
+        let atom = new VarAtom();
+        atom.value = ctx.getText();
+        return atom;
+    }
+
+    visitAtom_semicolon() {
+    }
+
+    visitAtom_comma() {
     }
 
     visitErrorNode(ctx) {
