@@ -1,0 +1,801 @@
+{
+    "type": "Program",
+    "classDefinitions": [
+        {
+            "type": "ClassDefinition",
+            "name": {
+                "type": "Terminal",
+                "value": "MyClass"
+            },
+            "attributes": [
+                [
+                    {
+                        "type": "ClassBoolAttrubute",
+                        "name": {
+                            "type": "Terminal",
+                            "value": "Abstract"
+                        },
+                        "value": {
+                            "type": "Terminal",
+                            "value": "false"
+                        }
+                    }
+                ],
+                [
+                    {
+                        "type": "ClassMetaAttrubute",
+                        "name": {
+                            "type": "Terminal",
+                            "value": "AllowedSubclasses"
+                        },
+                        "value": [
+                            {
+                                "type": "Terminal",
+                                "value": "ClassName1"
+                            },
+                            {
+                                "type": "Terminal",
+                                "value": "ClassName2"
+                            },
+                            {
+                                "type": "Terminal",
+                                "value": "ClassName3"
+                            }
+                        ]
+                    }
+                ]
+            ],
+            "superClasses": [
+                {
+                    "type": "Terminal",
+                    "value": "int24"
+                },
+                {
+                    "type": "Terminal",
+                    "value": "FLOAT"
+                }
+            ],
+            "propertyAttributes": [
+                [
+                    {
+                        "type": "ClassPropertyAccessAttribute",
+                        "name": {
+                            "type": "Terminal",
+                            "value": "Access"
+                        },
+                        "value": {
+                            "type": "Terminal",
+                            "value": "private"
+                        }
+                    }
+                ],
+                [
+                    {
+                        "type": "ClassPropertyBoolAttribute",
+                        "name": {
+                            "type": "Terminal",
+                            "value": "Constant"
+                        },
+                        "value": {
+                            "type": "Terminal",
+                            "value": "true"
+                        }
+                    }
+                ]
+            ],
+            "properties": [
+                {
+                    "type": "Terminal",
+                    "value": "Salary"
+                },
+                {
+                    "type": "Terminal",
+                    "value": "Password"
+                }
+            ],
+            "metodAttributes": [],
+            "methods": [
+                {
+                    "type": "FunctionDefinition",
+                    "name": {
+                        "type": "Terminal",
+                        "value": "MyClass"
+                    },
+                    "specificators": [],
+                    "returnValues": [
+                        {
+                            "type": "Terminal",
+                            "value": "obj"
+                        }
+                    ],
+                    "params": [
+                        {
+                            "type": "Terminal",
+                            "value": "val"
+                        }
+                    ],
+                    "body": [
+                        [
+                            {
+                                "type": "IfStatement",
+                                "condition": {
+                                    "type": "TreeStatement"
+                                },
+                                "trueBody": [
+                                    [
+                                        {
+                                            "type": "AssignStatement",
+                                            "left": [
+                                                {
+                                                    "type": "FieldStatement",
+                                                    "object": [
+                                                        {
+                                                            "type": "Terminal",
+                                                            "value": "obj"
+                                                        }
+                                                    ],
+                                                    "field": [
+                                                        {
+                                                            "type": "Terminal",
+                                                            "value": "Prop"
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "right": {
+                                                "type": "TreeStatement"
+                                            }
+                                        },
+                                        {
+                                            "type": "Terminal",
+                                            "value": ";"
+                                        }
+                                    ]
+                                ],
+                                "caseBodies": [],
+                                "elseBody": []
+                            }
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "functionDefinitions": [
+        {
+            "type": "FunctionDefinition",
+            "name": {
+                "type": "Terminal",
+                "value": "if_test"
+            },
+            "specificators": [],
+            "returnValues": [
+                {
+                    "type": "Terminal",
+                    "value": "res"
+                }
+            ],
+            "params": [
+                {
+                    "type": "Terminal",
+                    "value": "l_chain"
+                }
+            ],
+            "body": [
+                [
+                    {
+                        "type": "AssignStatement",
+                        "left": [
+                            [
+                                {
+                                    "type": "Terminal",
+                                    "value": "n"
+                                }
+                            ]
+                        ],
+                        "right": {
+                            "type": "TreeStatement"
+                        }
+                    }
+                ],
+                [
+                    {
+                        "type": "TreeStatement"
+                    },
+                    {
+                        "type": "Terminal",
+                        "value": ";"
+                    }
+                ],
+                [
+                    {
+                        "type": "IfStatement",
+                        "condition": {
+                            "type": "TreeStatement"
+                        },
+                        "trueBody": [
+                            [
+                                {
+                                    "type": "AssignStatement",
+                                    "left": [
+                                        [
+                                            {
+                                                "type": "Terminal",
+                                                "value": "res"
+                                            }
+                                        ]
+                                    ],
+                                    "right": {
+                                        "type": "TreeStatement"
+                                    }
+                                },
+                                {
+                                    "type": "Terminal",
+                                    "value": ";"
+                                }
+                            ]
+                        ],
+                        "caseBodies": [],
+                        "elseBody": []
+                    }
+                ],
+                [
+                    {
+                        "type": "AssignStatement",
+                        "left": [
+                            [
+                                {
+                                    "type": "Terminal",
+                                    "value": "res"
+                                }
+                            ]
+                        ],
+                        "right": {
+                            "type": "TreeStatement"
+                        }
+                    },
+                    {
+                        "type": "Terminal",
+                        "value": ";"
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "FunctionDefinition",
+            "name": {
+                "type": "Terminal",
+                "value": "print_l_chain"
+            },
+            "specificators": [],
+            "returnValues": [
+                {
+                    "type": "Terminal",
+                    "value": "l_chain"
+                }
+            ],
+            "params": [
+                {
+                    "type": "Terminal",
+                    "value": "l_chain"
+                }
+            ],
+            "body": [
+                [
+                    {
+                        "type": "AssignStatement",
+                        "left": [
+                            [
+                                {
+                                    "type": "Terminal",
+                                    "value": "n"
+                                }
+                            ]
+                        ],
+                        "right": {
+                            "type": "TreeStatement"
+                        }
+                    }
+                ],
+                [
+                    {
+                        "type": "TreeStatement"
+                    },
+                    {
+                        "type": "Terminal",
+                        "value": ";"
+                    }
+                ],
+                [
+                    {
+                        "type": "IfStatement",
+                        "condition": {
+                            "type": "TreeStatement"
+                        },
+                        "trueBody": [
+                            [
+                                {
+                                    "type": "FunctionCallStatement",
+                                    "name": {
+                                        "type": "Terminal",
+                                        "value": "fprintf"
+                                    },
+                                    "params": [
+                                        [
+                                            {
+                                                "type": "TreeStatement"
+                                            }
+                                        ],
+                                        [
+                                            {
+                                                "type": "TreeStatement"
+                                            }
+                                        ],
+                                        [
+                                            {
+                                                "type": "TreeStatement"
+                                            }
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "type": "Terminal",
+                                    "value": ";"
+                                }
+                            ],
+                            [
+                                {
+                                    "type": "IfStatement",
+                                    "condition": {
+                                        "type": "TreeStatement"
+                                    },
+                                    "trueBody": [
+                                        [
+                                            {
+                                                "type": "ForStatement",
+                                                "index": {
+                                                    "type": "Terminal",
+                                                    "value": "i"
+                                                },
+                                                "range": [
+                                                    {
+                                                        "type": "TreeStatement"
+                                                    },
+                                                    {
+                                                        "type": "Terminal",
+                                                        "value": ":"
+                                                    },
+                                                    {
+                                                        "type": "TreeStatement"
+                                                    }
+                                                ],
+                                                "body": [
+                                                    [
+                                                        {
+                                                            "type": "FunctionCallStatement",
+                                                            "name": {
+                                                                "type": "Terminal",
+                                                                "value": "fprintf"
+                                                            },
+                                                            "params": [
+                                                                [
+                                                                    {
+                                                                        "type": "TreeStatement"
+                                                                    }
+                                                                ],
+                                                                [
+                                                                    {
+                                                                        "type": "TreeStatement"
+                                                                    }
+                                                                ],
+                                                                [
+                                                                    {
+                                                                        "type": "TreeStatement"
+                                                                    }
+                                                                ]
+                                                            ]
+                                                        },
+                                                        {
+                                                            "type": "Terminal",
+                                                            "value": ";"
+                                                        }
+                                                    ]
+                                                ]
+                                            }
+                                        ]
+                                    ],
+                                    "caseBodies": [],
+                                    "elseBody": []
+                                }
+                            ],
+                            [
+                                {
+                                    "type": "FunctionCallStatement",
+                                    "name": {
+                                        "type": "Terminal",
+                                        "value": "fprintf"
+                                    },
+                                    "params": [
+                                        [
+                                            {
+                                                "type": "TreeStatement"
+                                            }
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "type": "Terminal",
+                                    "value": ";"
+                                }
+                            ],
+                            [
+                                {
+                                    "type": "AssignStatement",
+                                    "left": [
+                                        [
+                                            {
+                                                "type": "Terminal",
+                                                "value": "l_chain"
+                                            }
+                                        ]
+                                    ],
+                                    "right": {
+                                        "type": "TreeStatement"
+                                    }
+                                },
+                                {
+                                    "type": "Terminal",
+                                    "value": ";"
+                                }
+                            ]
+                        ],
+                        "caseBodies": [],
+                        "elseBody": []
+                    }
+                ]
+            ]
+        }
+    ],
+    "statements": [
+        [
+            {
+                "type": "AssignStatement",
+                "left": [
+                    [
+                        {
+                            "type": "Terminal",
+                            "value": "x"
+                        }
+                    ]
+                ],
+                "right": {
+                    "type": "TreeStatement"
+                }
+            },
+            {
+                "type": "Terminal",
+                "value": ";"
+            }
+        ],
+        [
+            {
+                "type": "SwitchStatement",
+                "condition": {
+                    "type": "TreeStatement"
+                },
+                "caseBodies": [
+                    {
+                        "type": "CaseStatement",
+                        "condition": {
+                            "type": "TreeStatement"
+                        },
+                        "body": [
+                            [
+                                {
+                                    "type": "AssignStatement",
+                                    "left": [
+                                        [
+                                            {
+                                                "type": "Terminal",
+                                                "value": "M"
+                                            }
+                                        ]
+                                    ],
+                                    "right": {
+                                        "type": "TreeStatement"
+                                    }
+                                }
+                            ],
+                            [
+                                {
+                                    "type": "TreeStatement"
+                                }
+                            ]
+                        ]
+                    },
+                    {
+                        "type": "CaseStatement",
+                        "condition": {
+                            "type": "TreeStatement"
+                        },
+                        "body": [
+                            [
+                                {
+                                    "type": "AssignStatement",
+                                    "left": [
+                                        [
+                                            {
+                                                "type": "Terminal",
+                                                "value": "M"
+                                            }
+                                        ]
+                                    ],
+                                    "right": {
+                                        "type": "TreeStatement"
+                                    }
+                                }
+                            ],
+                            [
+                                {
+                                    "type": "TreeStatement"
+                                }
+                            ]
+                        ]
+                    },
+                    {
+                        "type": "CaseStatement",
+                        "condition": {
+                            "type": "TreeStatement"
+                        },
+                        "body": [
+                            [
+                                {
+                                    "type": "AssignStatement",
+                                    "left": [
+                                        [
+                                            {
+                                                "type": "Terminal",
+                                                "value": "M"
+                                            }
+                                        ]
+                                    ],
+                                    "right": {
+                                        "type": "TreeStatement"
+                                    }
+                                }
+                            ],
+                            [
+                                {
+                                    "type": "TreeStatement"
+                                }
+                            ]
+                        ]
+                    }
+                ],
+                "defaultBody": [],
+                "elseBody": [
+                    [
+                        {
+                            "type": "FunctionCallStatement",
+                            "name": {
+                                "type": "Terminal",
+                                "value": "error"
+                            },
+                            "params": [
+                                [
+                                    {
+                                        "type": "TreeStatement"
+                                    }
+                                ]
+                            ]
+                        }
+                    ]
+                ]
+            }
+        ],
+        [
+            {
+                "type": "IfStatement",
+                "condition": {
+                    "type": "TreeStatement"
+                },
+                "trueBody": [
+                    [
+                        {
+                            "type": "TreeStatement"
+                        }
+                    ]
+                ],
+                "caseBodies": [
+                    {
+                        "type": "ElseIfStatement",
+                        "condition": {
+                            "type": "TreeStatement"
+                        },
+                        "body": [
+                            [
+                                {
+                                    "type": "TreeStatement"
+                                }
+                            ]
+                        ]
+                    },
+                    {
+                        "type": "ElseIfStatement",
+                        "condition": {
+                            "type": "TreeStatement"
+                        },
+                        "body": [
+                            [
+                                {
+                                    "type": "TreeStatement"
+                                }
+                            ]
+                        ]
+                    }
+                ],
+                "elseBody": [
+                    [
+                        {
+                            "type": "FunctionCallStatement",
+                            "name": {
+                                "type": "Terminal",
+                                "value": "error"
+                            },
+                            "params": [
+                                [
+                                    {
+                                        "type": "TreeStatement"
+                                    }
+                                ]
+                            ]
+                        }
+                    ]
+                ]
+            }
+        ],
+        [
+            {
+                "type": "AssignStatement",
+                "left": [
+                    [
+                        {
+                            "type": "Terminal",
+                            "value": "fid"
+                        }
+                    ]
+                ],
+                "right": {
+                    "type": "TreeStatement"
+                }
+            },
+            {
+                "type": "Terminal",
+                "value": ";"
+            }
+        ],
+        [
+            {
+                "type": "AssignStatement",
+                "left": [
+                    [
+                        {
+                            "type": "Terminal",
+                            "value": "count"
+                        }
+                    ]
+                ],
+                "right": {
+                    "type": "TreeStatement"
+                }
+            },
+            {
+                "type": "Terminal",
+                "value": ";"
+            }
+        ],
+        [
+            {
+                "type": "WhileStatement",
+                "condition": {
+                    "type": "TreeStatement"
+                },
+                "body": [
+                    [
+                        {
+                            "type": "TreeStatement"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "AssignStatement",
+                            "left": [
+                                [
+                                    {
+                                        "type": "Terminal",
+                                        "value": "line"
+                                    }
+                                ]
+                            ],
+                            "right": {
+                                "type": "TreeStatement"
+                            }
+                        }
+                    ],
+                    [
+                        {
+                            "type": "TreeStatement"
+                        },
+                        {
+                            "type": "Terminal",
+                            "value": ";"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "IfStatement",
+                            "condition": {
+                                "type": "TreeStatement"
+                            },
+                            "trueBody": [
+                                [
+                                    {
+                                        "type": "TreeStatement"
+                                    }
+                                ],
+                                [
+                                    {
+                                        "type": "Terminal",
+                                        "value": "continue"
+                                    }
+                                ]
+                            ],
+                            "caseBodies": [],
+                            "elseBody": []
+                        }
+                    ],
+                    [
+                        {
+                            "type": "AssignStatement",
+                            "left": [
+                                [
+                                    {
+                                        "type": "Terminal",
+                                        "value": "count"
+                                    }
+                                ]
+                            ],
+                            "right": {
+                                "type": "TreeStatement"
+                            }
+                        },
+                        {
+                            "type": "Terminal",
+                            "value": ";"
+                        }
+                    ]
+                ]
+            }
+        ],
+        [
+            {
+                "type": "FunctionCallStatement",
+                "name": {
+                    "type": "Terminal",
+                    "value": "disp"
+                },
+                "params": [
+                    [
+                        {
+                            "type": "TreeStatement"
+                        }
+                    ]
+                ]
+            },
+            {
+                "type": "Terminal",
+                "value": ";"
+            }
+        ]
+    ]
+}
