@@ -1,4 +1,5 @@
 function [res] = if_test(l_chain)
+    x = -3;
     n = length(l_chain);
     if n > 5
         res = true;

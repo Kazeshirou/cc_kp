@@ -10,6 +10,7 @@ var input = fs.readFileSync('input.m');
 var chars = new antlr4.InputStream(input.toString());
 var lexer = new MyGrammarLexer(chars);
 var tokens = new antlr4.CommonTokenStream(lexer);
+
 var parser = new MyGrammarParser(tokens);
 
 var tree = parser.matlab_file();
@@ -23,3 +24,8 @@ fs.writeFile("output.json", JSON.stringify(res),
         console.log('complete');
     }
 );
+
+for (let i = 0; i < tokens.tokens.length; i++) {
+    const token = tokens.get(i);
+    console.log(`${token.line}:${token.column} type=${token.type} text='${token.text}'`);
+}
