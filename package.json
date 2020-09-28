@@ -5,14 +5,17 @@
     "main": "index.js",
     "scripts": {
         "start": "node .",
+        "test": "mocha ./tests/*.test.js",
         "dstart": "nodemon .",
         "generate": "npm run clean && antlr4 -Dlanguage=JavaScript MyGrammar.g4 -o generated -visitor -Xexact-output-dir",
-        "clean": "rm -rf generated && mkdir generated",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "clean": "rm -rf generated && mkdir generated"
     },
     "author": "Natalie Zharova",
     "license": "ISC",
     "dependencies": {
-        "antlr4": "^4.8.0"
+        "antlr4": "^4.8.0",
+        "chai": "^4.2.0",
+        "mocha": "^8.1.3",
+        "sinon": "^9.0.3"
     }
 }

@@ -25,7 +25,7 @@ fs.writeFile("output.json", JSON.stringify(res),
     }
 );
 
-for (let i = 0; i < tokens.tokens.length; i++) {
-    const token = tokens.get(i);
-    console.log(`${token.line}:${token.column} type=${token.type} text='${token.text}'`);
-}
+// for (let i = 0; i < tokens.tokens.length; i++) {
+//     const token = tokens.get(i);
+//     console.log(`${token.line}:${token.column} type=${token.type} text='${token.text}'`);
+// }
